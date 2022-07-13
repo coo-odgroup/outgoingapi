@@ -621,15 +621,10 @@ export class SearchComponent  implements ControlValueAccessor {
           this.spinner.hide();
         });
 
-       
-
     }else{
-
       this.spinner.hide();
       this.PriceArray=[];
-    }
-
-    
+    }    
      
   }
 
@@ -984,6 +979,8 @@ export class SearchComponent  implements ControlValueAccessor {
               
         if(res.data){
           this.buslist = res.data; 
+          console.log(this.buslist);
+          
           this.totalfound = res.data.length; 
 
 

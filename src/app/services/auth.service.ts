@@ -20,20 +20,29 @@ export class AuthService {
   //   "grant_type": "client_credentials"
   // }
 
-  params={
-    "client_id": "odbusSas" ,
-    "password": "Admin@2010"
-  }
+  // params={
+  //   "client_id": "odbusSas" ,
+  //   "password": "Admin@2010"
+  // }
+
+  params = {
+      "client_id": "2686983" ,
+      "password": "dev@12345"
+  }  
+
+  // //local 
+  // params = {
+  //   "client_id": "4423425" ,
+  //   "password": "demo@123"
+  // }  
 
   httpOptions = {
     headers: new HttpHeaders({
       'Content-Type': 'application/json'
     })
-  }
+  }  
 
-  
-
-  constructor(private httpClient: HttpClient) { }
+  constructor(private httpClient: HttpClient) { }  
 
   getToken(): Observable<any> { 
      return this.httpClient.post<any>(this.apiURL + '/ClientLogin' , JSON.stringify(this.params) ,this.httpOptions)

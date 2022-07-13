@@ -32,7 +32,9 @@ export class AppComponent {
 
     this.auth.getToken().subscribe(
       res=>{
-        localStorage.setItem('AuthAccessToken',res.data.access_token);        
+        //console.log(res.data);
+        //localStorage.setItem('AuthAccessToken',res.data.access_token);        
+        localStorage.setItem('AuthAccessToken',res.data);        
       }
     );
    
@@ -57,68 +59,56 @@ export class AppComponent {
 
         this.titleService.setTitle(this.meta_title);
 
-       const metaArr= [
-          {name: 'keywords', content: this.meta_keyword},
-          {name: 'description', content: this.meta_description},
-          { name: 'og:url', content: this.doc.URL },
-          { name: 'og:type', content: "website" },
-          { name: 'og:title', content: this.meta_title },
-          { name: 'og:description', content: this.meta_description }      
-        ];        
+      //  const metaArr= [
+      //     {name: 'keywords', content: this.meta_keyword},
+      //     {name: 'description', content: this.meta_description},
+      //     { name: 'og:url', content: this.doc.URL },
+      //     { name: 'og:type', content: "website" },
+      //     { name: 'og:title', content: this.meta_title },
+      //     { name: 'og:description', content: this.meta_description }      
+      //   ];        
 
-        if(this.og_image!='' && this.og_image!=null){
-          metaArr.push({ name: 'og:image', content: this.og_image });
-        }
+      //   if(this.og_image!='' && this.og_image!=null){
+      //     metaArr.push({ name: 'og:image', content: this.og_image });
+      //   }
 
-        if(this.common.google_verification_code!='' && this.common.google_verification_code!=null){
-          metaArr.push({ name: 'google-site-verification', content: this.common.google_verification_code });
-        }
+        // if(this.common.google_verification_code!='' && this.common.google_verification_code!=null){
+        //   metaArr.push({ name: 'google-site-verification', content: this.common.google_verification_code });
+        // }
 
-        if(this.common.bing_verification_code!='' && this.common.bing_verification_code!=null){
-          metaArr.push({ name: 'msvalidate.01', content: this.common.bing_verification_code });
-        }
+        // if(this.common.bing_verification_code!='' && this.common.bing_verification_code!=null){
+        //   metaArr.push({ name: 'msvalidate.01', content: this.common.bing_verification_code });
+        // }
 
-        if(this.common.pintrest_verification_code!='' && this.common.pintrest_verification_code!=null){
-          metaArr.push({ name: 'p:domain_verify', content: this.common.pintrest_verification_code });
-        }
+        // if(this.common.pintrest_verification_code!='' && this.common.pintrest_verification_code!=null){
+        //   metaArr.push({ name: 'p:domain_verify', content: this.common.pintrest_verification_code });
+        // }
 
-        this.metaService.addTags(metaArr);
+       // this.metaService.addTags(metaArr);
 
-        if(this.common.google_analytics!='' && this.common.google_analytics!=null){
+        // if(this.common.google_analytics!='' && this.common.google_analytics!=null)
+        // {         
+        //     let chatScript = document.createElement("script");
+        //     chatScript.type = "text/javascript";
+        //     chatScript.async = true;
+        //     chatScript.src = this.common.google_analytics;
+        //     document.head.appendChild(chatScript);
          
-          let chatScript = document.createElement("script");
-          chatScript.type = "text/javascript";
-          chatScript.async = true;
-          chatScript.src = this.common.google_analytics;
-          document.head.appendChild(chatScript);
-         
-        }
+        // }
 
-        if(this.common.no_script!='' && this.common.no_script!=null){
-         
-          let chatScript = document.createElement("noscript");
-          chatScript.innerHTML  = this.common.no_script;
-          document.head.append(chatScript);
-         
-        }
+        // if(this.common.no_script!='' && this.common.no_script!=null)
+        // {         
+        //     let chatScript = document.createElement("noscript");
+        //     chatScript.innerHTML  = this.common.no_script;
+        //     document.head.append(chatScript);         
+        // }
 
-        if(this.common.seo_script!='' && this.common.seo_script!=null){
-         
-          let chatScript = document.createElement("script");
-          chatScript.innerHTML = this.common.seo_script;          
-          document.head.append(chatScript);
-         
-        }
-
-        
-
-
+        // if(this.common.seo_script!='' && this.common.seo_script!=null)
+        // {         
+        //     let chatScript = document.createElement("script");
+        //     chatScript.innerHTML = this.common.seo_script;          
+        //     document.head.append(chatScript);         
+        // }
       });
-
-
-    
-
-   }
-
-  
+   }  
 }

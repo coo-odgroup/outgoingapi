@@ -22,15 +22,26 @@ export class BookticketService {
 
   constructor(private httpClient: HttpClient) { }
 
-  book(params :any): Observable<any> {
+  PassengerInfo(params :any): Observable<any> {
+      return this.httpClient.post<any>(this.apiURL + '/PassengerInfo' , JSON.stringify(params) ,this.httpOptions)
+      .pipe(
+        catchError(this.errorHandler)
+      )
+  }
 
-   // console.log(JSON.stringify(params));
+  SeatBlock(params :any): Observable<any> {
+      return this.httpClient.post<any>(this.apiURL + '/SeatBlock' , JSON.stringify(params) ,this.httpOptions)
+      .pipe(
+        catchError(this.errorHandler)
+      )
+  }
 
-    return this.httpClient.post<any>(this.apiURL + '/BookTicket' , JSON.stringify(params) ,this.httpOptions)
+  TicketConfirm(params :any): Observable<any> {
+    return this.httpClient.post<any>(this.apiURL + '/TicketConfirmation' , JSON.stringify(params) ,this.httpOptions)
     .pipe(
       catchError(this.errorHandler)
     )
-  }
+}
 
   errorHandler(error:HttpErrorResponse) {
     let errorMessage :any;

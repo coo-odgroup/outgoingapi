@@ -1,12 +1,12 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { SearchComponent } from './search.component';
+//import { SearchComponent } from './search.component';
 import { CommonModule } from '@angular/common';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 @NgModule({
   declarations: [
-    SearchComponent
+    //SearchComponent
   ],
   imports: [
     CommonModule,
@@ -17,6 +17,6 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
   ],
   exports: [],
   providers: [],
-  bootstrap: [SearchComponent]
+ // bootstrap: [SearchComponent]
 })
 export class SearchModule { }

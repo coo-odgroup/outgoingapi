@@ -136,7 +136,7 @@ const ngWizardConfig: NgWizardConfig = {
     IvyCarouselModule,
     AuthModule.forRoot({
       domain: GlobalConstants.BASE_URL + '/ClientLogin',
-      clientId: 'odbusSas'
+      clientId: '2686983'
     }),
     ImageCropperModule,
     LightboxModule
