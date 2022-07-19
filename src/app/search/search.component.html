@@ -524,9 +524,7 @@
                                     </div>
     
                                     <div *ngIf="col.seat_class_id != 4 && col.seatText!='' ">
-                                        <input type="checkbox" disabled />
-    
-                                        
+                                        <input type="checkbox" disabled />                                        
                                             <label class="lable-blue fixsize"
                                             *ngIf="col.seat_class_id == 1 && !col.bus_seats && !col.Gender">{{
                                             col.seatText }}</label>
@@ -535,10 +533,7 @@
                                                 col.seatText }}</label>
                                             <label class="seat-purpel fixsize"
                                             *ngIf="col.seat_class_id == 1 && col.Gender && col.Gender=='F'">{{
-                                            col.seatText }}</label>
-                                        
-    
-                                        
+                                            col.seatText }}</label>                                        
                                             <label class="sleeper-gray fixsize"
                                             *ngIf="col.seat_class_id == 2 && !col.bus_seats && !col.Gender">{{
                                             col.seatText }}</label>
@@ -548,8 +543,6 @@
                                             <label class="sleeper-purpel fixsize"
                                             *ngIf="col.seat_class_id == 2 && col.Gender && col.Gender=='F'">{{
                                             col.seatText }}</label>
-                                        
-                                        
                                             <label class="vertical-gray fixsize"
                                             *ngIf="col.seat_class_id == 3 && !col.bus_seats && !col.Gender">{{
                                             col.seatText }}</label>
@@ -558,23 +551,17 @@
                                                 col.seatText }}</label>
                                             <label class="vertical-purpel fixsize"
                                             *ngIf="col.seat_class_id == 3 && col.Gender && col.Gender=='F'">{{
-                                            col.seatText }}</label>
-                                        
-    
-                                        
+                                            col.seatText }}</label>                                        
                                     </div>
                                     
-                                    <div *ngIf="col.bus_seats != null">
-    
+                                    <div *ngIf="col.bus_seats != null">    
                                         <input type="checkbox" id="lower{{col.id}}"
                                         [value]="col.id"
                                         (change)="updateLowerberth($event)" />                                                                                                                                                    
                                             <label title="{{ (col.bus_seats.new_fare > 0 ) ? col.bus_seats.new_fare : col.bus_seats.ticket_price.base_seat_fare }}" *ngIf="col.seat_class_id == 2 " class="sleeper-blue"
-                                            for=lower{{col.id}}>{{ col.seatText }}</label>                                                         
-                                            
+                                            for=lower{{col.id}}>{{ col.seatText }}</label>
                                             <label title="{{ (col.bus_seats.new_fare > 0 ) ? col.bus_seats.new_fare : col.bus_seats.ticket_price.base_seat_fare }}"  *ngIf="col.seat_class_id == 1 " class="seat-blue fixsize"
                                             for="lower{{col.id}}">{{ col.seatText }}</label>
-    
                                             <label title="{{ (col.bus_seats.new_fare > 0 ) ? col.bus_seats.new_fare : col.bus_seats.ticket_price.base_seat_fare }}"    *ngIf="col.seat_class_id == 3 " class="vertical-sleeper"
                                             for="lower{{col.id}}">{{ col.seatText }}</label> 
                                     </div>
@@ -637,17 +624,19 @@
                             <span>{{ selectedLB }} </span></span>
                     </div>
                     <div class="clearfix"></div>
-                    <div class="row form-group mt10" *ngIf="PriceArray.ownerFare > 0">
+                    <!--  *ngIf="PriceArray.ownerFare > 0" -->
+                    <div class="row form-group mt10">
                         <div class="col-md-6">
                             <label>Total Fare</label>
                         </div>
                         <div class="col-md-6" style="text-align: right;">
                             <label class="TotalPrice">₹<span
                                     id="TotalPrice{{bus.busId}}">{{
-                                    PriceArray.ownerFare }}</span></label>
+                                    PriceArray.totalFare }}</span></label>
                         </div>
                     </div>
-                    <div class="form-group" *ngIf="PriceArray.ownerFare > 0">
+                    <!--  *ngIf="PriceArray.ownerFare > 0" -->
+                    <div class="form-group">
                         <div>
                             <button type="submit"
                                 class="btn btn-warning btn-block bookNow">BOOK

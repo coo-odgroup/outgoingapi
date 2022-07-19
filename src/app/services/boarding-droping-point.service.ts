@@ -21,8 +21,8 @@ export class BoardingDropingPointService {
 
   constructor(private httpClient: HttpClient) { }
 
-  getdata(bus_id:any,src:any,dest:any): Observable<any> {
-    return this.httpClient.get<any>(this.apiURL + '/BoardingDroppingPoints?busId=' + bus_id + "&sourceId=" + src + "&destinationId=" + dest,this.httpOptions)
+  getdata(param:any): Observable<any> {
+    return this.httpClient.post<any>(this.apiURL + '/BoardingDroppingPoints',JSON.stringify(param),this.httpOptions)
     .pipe(
       catchError(this.errorHandler)
     )

@@ -474,8 +474,8 @@ export class SearchComponent  implements ControlValueAccessor {
     }
 
         let params='entry_date='+this.entdate;
-        let seaterparam='';
-        let sleeperparam='';
+        let seaterparam= [];
+        let sleeperparam= [];
 
         let lbIds=SeatPriceParams.seater; 
         let ubIds=SeatPriceParams.sleeper; 
@@ -489,7 +489,9 @@ export class SearchComponent  implements ControlValueAccessor {
         this.selectedLB = this.seatsLayoutRecord.lower_berth.filter((itm) =>{
 
           if(lbIds.indexOf(itm.id.toString()) > -1){
-            seaterparam +='&seater[]='+itm.id;
+            //seaterparam +='&seater[]='+itm.id;
+
+            seaterparam.push(itm.id);
 
             ///////// logic for seat select gender restriction
 
@@ -544,7 +546,9 @@ export class SearchComponent  implements ControlValueAccessor {
 
         this.selectedUB = this.seatsLayoutRecord.upper_berth.filter((t) =>{  
           if(ubIds.indexOf(t.id.toString()) > -1){
-            sleeperparam +='&sleeper[]='+t.id; 
+           // sleeperparam +='&sleeper[]='+t.id; 
+
+            sleeperparam.push(t.id); 
 
              ///////// logic for seat select gender restriction
 
@@ -602,13 +606,22 @@ export class SearchComponent  implements ControlValueAccessor {
 
     if(this.selectedLB.length != 0 || this.selectedUB.length != 0){
 
-      params +='&destinationId='+SeatPriceParams.destinationId+'&sourceId='+SeatPriceParams.sourceId+'&busId='+SeatPriceParams.busId
-      if(seaterparam){
-        params += seaterparam;
-      }
+      // params +='&destinationId='+SeatPriceParams.destinationId+'&sourceId='+SeatPriceParams.sourceId+'&busId='+SeatPriceParams.busId
+      // if(seaterparam){
+      //   params += seaterparam;
+      // }
 
-      if(sleeperparam){
-        params += sleeperparam;
+      // if(sleeperparam){
+      //   params += sleeperparam;
+      // }
+
+      let params={
+        "entry_date": this.entdate,
+        "sourceId": SeatPriceParams.sourceId,
+        "destinationId": SeatPriceParams.destinationId,
+        "busId": SeatPriceParams.busId,
+        "sleeper": sleeperparam,
+        "seater": seaterparam,
       }
 
       //console.log(params);
@@ -616,7 +629,7 @@ export class SearchComponent  implements ControlValueAccessor {
       this.getSeatPriceService.getprice(params).subscribe(
         res=>{ 
           
-          //console.log(res);
+          console.log(res);
           this.PriceArray=res.data[0];  
           this.spinner.hide();
         });
@@ -782,64 +795,69 @@ export class SearchComponent  implements ControlValueAccessor {
     this.safetyshow='';
     this.busPhotoshow='';
     this.reviewShow='';
-    this.policyShow='';
+    this.policyShow='';    
 
-    
-
-   let filterparam='';
     let et= this.entdate;
 
-   filterparam ='price='+this.filterForm.value.price+'&sourceID='+this.source_id+
-    '&destinationID='+this.destination_id+
-    '&entry_date='+et;
+    let filterparam ={
+        "price":this.filterForm.value.price,
+        "sourceID":this.source_id,
+        "destinationID":this.destination_id,        
+        "entry_date":et
+     }
 
-   if(this.filterForm.value.busType){
+  //  filterparam ='price='+this.filterForm.value.price+'&sourceID='+this.source_id+
+  //   '&destinationID='+this.destination_id+
+  //   '&entry_date='+et;
 
-    this.filterForm.value.busType.forEach((e: any) => {
-
-      filterparam +='&busType[]='+e;   
-    });
-
+   if(this.filterForm.value.busType.length>0)
+   {
+      // this.filterForm.value.busType.forEach((e: any) => {
+      //   filterparam +='&busType[]='+e;   
+      // });
+      filterparam["busType"]=this.filterForm.value.busType;
    }
 
-   if(this.filterForm.value.seatType){
 
-    this.filterForm.value.seatType.forEach((e: any) => {
-
-      filterparam +='&seatType[]='+e;   
-    });
+   if(this.filterForm.value.seatType.length>0)
+   {
+      // this.filterForm.value.seatType.forEach((e: any) => {
+      //   filterparam +='&seatType[]='+e;   
+      // });
+      filterparam["seatType"]=this.filterForm.value.seatType;
    }
   
-   if(this.filterForm.value.boardingPointId){
-
-    this.filterForm.value.boardingPointId.forEach((e: any) => {
-
-      filterparam +='&boardingPointId[]='+e;   
-    });
+   if(this.filterForm.value.boardingPointId.length>0)
+   {
+      // this.filterForm.value.boardingPointId.forEach((e: any) => {
+      //   filterparam +='&boardingPointId[]='+e;   
+      // });
+      filterparam["boardingPointId"]=this.filterForm.value.boardingPointId;
    }
 
-   if(this.filterForm.value.dropingingPointId){
+   if(this.filterForm.value.dropingingPointId.length>0)
+   {
+      // this.filterForm.value.dropingingPointId.forEach((e: any) => {
 
-    this.filterForm.value.dropingingPointId.forEach((e: any) => {
-
-      filterparam +='&dropingingPointId[]='+e;   
-    });
+      //   filterparam +='&dropingingPointId[]='+e;   
+      // });
+      filterparam["dropingingPointId"]=this.filterForm.value.dropingingPointId;
    }
 
-   if(this.filterForm.value.operatorId){
+   if(this.filterForm.value.operatorId.length>0){
 
-    this.filterForm.value.operatorId.forEach((e: any) => {
-
-      filterparam +='&operatorId[]='+e;   
-    });
+      // this.filterForm.value.operatorId.forEach((e: any) => {
+      //   filterparam +='&operatorId[]='+e;   
+      // });
+      filterparam["operatorId"] = this.filterForm.value.operatorId;
    }
 
-   if(this.filterForm.value.amenityId){
-
-    this.filterForm.value.amenityId.forEach((e: any) => {
-
-      filterparam +='&amenityId[]='+e;   
-    });
+   if(this.filterForm.value.amenityId.length>0)
+   {
+      // this.filterForm.value.amenityId.forEach((e: any) => {
+      //   filterparam +='&amenityId[]='+e;   
+      // });
+      filterparam["amenityId"]=this.filterForm.value.amenityId;
 
    }  
    
@@ -1005,11 +1023,20 @@ export class SearchComponent  implements ControlValueAccessor {
   }  
 
   getseatlayout(){
+
     let bus_id=this.busId;
     this.seatLoader=true;
-      this.seatLayoutService.getSeats(this.entdate,bus_id,this.source_id,this.destination_id).subscribe(
-        res=>{  
-         
+
+    const params = {
+          entry_date:this.entdate,
+          busId:bus_id,
+          sourceId:this.source_id,
+          destinationId:this.destination_id
+     };
+
+    
+      this.seatLayoutService.getSeats(params).subscribe(
+        res=>{          
 
           this.seatsLayouts[bus_id]= res.data;   
           this.seatsLayoutRecord= res.data;
@@ -1078,13 +1105,17 @@ export class SearchComponent  implements ControlValueAccessor {
 
     let bus_id=this.busId;
 
-    this.boardingDropingPointService.getdata(bus_id,this.source_id,this.destination_id).subscribe(
+    let bdparam={
+      "busId":this.busId,
+      "sourceId":this.source_id,
+      "destinationId":this.destination_id
+    };
+
+    this.boardingDropingPointService.getdata(bdparam).subscribe(
       res=>{
 
        this.boardingPointArr=res.data[0].boardingPoints;
-       this.droppingPointArr=res.data[0].droppingPoints;
-
-      
+       this.droppingPointArr=res.data[0].droppingPoints;     
 
        this.boardingPointArr.map((i:any) => { i.boardTime = i.boardingPoints + ' - ' + i.boardingTimes; return i; });
        this.droppingPointArr.map((i:any) => { i.dropTime = i.droppingPoints + ' - ' + i.droppingTimes; return i; });
@@ -1403,31 +1434,34 @@ export class SearchComponent  implements ControlValueAccessor {
 
   filteroptions(){
 
-    let busIDs ="";
+    // let busIDs ="";
 
-    if(this.busIds.length>0){
+    // if(this.busIds.length>0){
     
-      this.busIds.forEach((i) => {
-        busIDs +="&busIDs[]= "+i;
-      });
+    //   this.busIds.forEach((i) => {
+    //     busIDs +="&busIDs[]= "+i;
+    //   });
 
-    }else{
-      busIDs ="&busIDs[]= ";
-    }
+    // }else{
+    //   busIDs ="&busIDs[]= ";
+    // }
 
+    let param = {
+        "sourceID":this.source_id,
+        "destinationID":this.destination_id,
+        "busIDs":this.busIds
+    };
 
-    this.filterOptionsService.getoptions(this.source_id,this.destination_id,busIDs).subscribe(
+    this.filterOptionsService.getoptions(param).subscribe(
       res=>{ 
-
-        //console.log(res.data);
-        this.busTypes = res.data[0].busTypes;        
-        this.seatTypes = res.data[0].seatTypes;        
-        this.boardingPoints = res.data[0].boardingPoints;  
-        this.droppingPoints = res.data[0].dropingPoints;  
-        this.busOperators = res.data[0].busOperator;  
-        this.amenities = res.data[0].amenities;
-      });      
-
+          //console.log(res.data);
+          this.busTypes = res.data[0].busTypes;        
+          this.seatTypes = res.data[0].seatTypes;        
+          this.boardingPoints = res.data[0].boardingPoints;  
+          this.droppingPoints = res.data[0].dropingPoints;  
+          this.busOperators = res.data[0].busOperator;  
+          this.amenities = res.data[0].amenities;
+      }); 
   }
 
   toggleShow() {
@@ -1445,8 +1479,6 @@ export class SearchComponent  implements ControlValueAccessor {
         month: dd.getMonth()+1,
         day: dd.getDate()
       }
-
-
     }
   }
 
@@ -1502,11 +1534,9 @@ export class SearchComponent  implements ControlValueAccessor {
   ngOnInit() :void{ 
     this.locationService.currentsource.subscribe((s:any) => { this.sourceData = s});
     this.locationService.currentdestination.subscribe((d:any) => { this.destinationData = d });
-    this.locationService.currententdate.subscribe(dat => { this.entdate = dat});
+    this.locationService.currententdate.subscribe(dat => { this.entdate = dat});    
 
-    
-
-         this.seo.seoList().subscribe(
+        this.seo.seoList().subscribe(
         resp => {
           if(resp.status==1)
           {
@@ -1518,14 +1548,10 @@ export class SearchComponent  implements ControlValueAccessor {
             });
           }
         }
-        });
-
-       
+        });       
 
         if(this.currentUrl != 'listing'){
-
           this.spinner.show();
-
           this.popularRoutesService.allroutes().subscribe(
             res=>{
               if(res.status==1)
@@ -1560,33 +1586,22 @@ export class SearchComponent  implements ControlValueAccessor {
                 
                       this.showformattedDate(this.entdate);
                       this.getbuslist();
-                      this.setPrevNextDate(this.entdate);
-                      
-                    }
-                   
+                      this.setPrevNextDate(this.entdate);                      
+                    }                   
                   });
                  
                   if(this.sourceData =='' && this.destinationData ==''){
                             this.router.navigate(['/404']);
-
-                  }
-      
+                  }      
               } 
             }      
         });
-
-
-      
-
-    }else{
-
-
-      if(this.sourceData==null  || this.destinationData==null || this.entdate=='' || this.entdate==null ){ 
-      
+  }else{   
+    
+    if(this.sourceData==null  || this.destinationData==null || this.entdate=='' || this.entdate==null )
+    {       
         this.router.navigate(['/']);
-      }else{
-  
-      
+      }else{     
   
         this.swapsource=this.sourceData;
         this.swapdestination=this.destinationData;
@@ -1623,36 +1638,19 @@ export class SearchComponent  implements ControlValueAccessor {
              this.maxAllowedDate = this.maxAllowedDate.setDate(this.maxAllowedDate.getDate() + resp.data.common.advance_days_show); 
              this.maxAllowedDate = formatDate(this.maxAllowedDate,'dd-MM-yyyy','en_US'); 
 
-             this.setPrevNextDate(this.entdate);
-            
-          });
-  
+             this.setPrevNextDate(this.entdate);            
+          });  
       }
-
-
-
     }
-
-
-       
-    
-
 
     this.Common.getPathUrls().subscribe( res=>{          
       if(res.status==1){  
         this.url_path=res.data[0];        
       }    
-    });
-
-    
-    
-
-  
+    });  
   }
 
-  setPrevNextDate(entDate:any){  
-    
-    
+  setPrevNextDate(entDate:any){     
     
     let dt = entDate.split("-");
     let dd=dt[2]+'-'+dt[1]+'-'+dt[0];
@@ -1681,12 +1679,7 @@ export class SearchComponent  implements ControlValueAccessor {
         this.nextDate = formatDate(this.nextDate,'dd-MM-yyyy','en_US');
 
        this.prevDate = fentdate.setDate(fentdate.getDate() - 2); 
-        this.prevDate = formatDate(this.prevDate,'dd-MM-yyyy','en_US');
-        
-      }
-     
+        this.prevDate = formatDate(this.prevDate,'dd-MM-yyyy','en_US');        
+      }     
   }
-
 }
-
-
