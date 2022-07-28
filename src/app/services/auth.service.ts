@@ -25,16 +25,18 @@ export class AuthService {
   //   "password": "Admin@2010"
   // }
 
-  // params = {
-  //     "client_id": "2686983" ,
-  //     "password": "dev@12345"
-  // }  
+
+  //live
+  params = {
+      "client_id": "2686983" ,
+      "password": "dev@12345"
+  }  
 
   //local 
-  params = {
-    "client_id": "4423425" ,
-    "password": "dev@12345"
-  }  
+  // params = {
+  //   "client_id": "4423425" ,
+  //   "password": "dev@12345"
+  // }  
 
   httpOptions = {
     headers: new HttpHeaders({

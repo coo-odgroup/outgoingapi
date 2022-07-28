@@ -370,9 +370,9 @@ export class SearchComponent  implements ControlValueAccessor {
        });
       
       const bookingdata={
-        LowerBerthSeats:this.selectedLB,
+        // LowerBerthSeats:this.selectedLB,
         Lowerberth:Lowerberth,
-        UpperBerthSeats:this.selectedUB,
+        // UpperBerthSeats:this.selectedUB,
         Upperberth: Upperberth,
         boardingPoint:this.seatForm.value.boardingPoint,
         busId:this.busId,
@@ -477,8 +477,19 @@ export class SearchComponent  implements ControlValueAccessor {
         let seaterparam= [];
         let sleeperparam= [];
 
-        let lbIds=SeatPriceParams.seater; 
-        let ubIds=SeatPriceParams.sleeper; 
+        let lbIds=[];
+        let ubIds=[];
+        
+        SeatPriceParams.seater.forEach(e => {
+          let ar=e.split('-');
+          lbIds.push(ar[0]);          
+        });
+
+
+        SeatPriceParams.sleeper.forEach(e => {
+          let ar=e.split('-');
+          ubIds.push(ar[0]);          
+        });
 
 
         let genderRestrictSeatarray: any=[];
@@ -629,7 +640,7 @@ export class SearchComponent  implements ControlValueAccessor {
       this.getSeatPriceService.getprice(params).subscribe(
         res=>{ 
           
-          console.log(res);
+          //console.log(res);
           this.PriceArray=res.data[0];  
           this.spinner.hide();
         });
@@ -997,7 +1008,7 @@ export class SearchComponent  implements ControlValueAccessor {
               
         if(res.data){
           this.buslist = res.data; 
-          console.log(this.buslist);
+          //console.log(this.buslist);
           
           this.totalfound = res.data.length; 
 
