@@ -85,6 +85,7 @@ export class BookingComponent implements OnInit{
    destination_id:any;
    entdate:any;
    formatentdate:any;
+   entrydate:any;
 
    razorpayResponse: any;
    response: any;
@@ -144,9 +145,11 @@ export class BookingComponent implements OnInit{
     this.destination=localStorage.getItem('destination');   
     const entdt:any =localStorage.getItem('entdate'); 
 
-    this.entdate = this.showformattedDate(entdt);
+    //console.log(entdt);
 
-    //console.log(this.entdate);
+    this.entrydate = entdt;
+
+    this.entdate = this.showformattedDate(entdt);    
 
     this.source_id=localStorage.getItem('source_id');
     this.destination_id=localStorage.getItem('destination_id');
@@ -486,10 +489,7 @@ get_seatno(seat_id:any){
         );
     }
   }
-
-  countdown:any;
-
-  
+  countdown:any;  
 
   submitForm2()
   {   
@@ -502,46 +502,79 @@ get_seatno(seat_id:any){
         {
              // this.transaction_id = this.bookTicketResponse.transaction_id;      
               //console.log(this.bookTicketResponse.transaction_id);
-              this.spinner.show();
-              const param=  {
-                   "transaction_id":this.bookTicketResponse.transaction_id
-              }  
+              //this.spinner.show();
+              const entdt:any =localStorage.getItem('entdate'); 
 
-              this.bookticketService.SeatBlock(param).subscribe(
+              const paymentParam={        
+                    "busId" : this.busRecord.busId,
+                    "sourceId":this.source_id, 
+                    "destinationId":this.destination_id,
+                    "transaction_id": this.bookTicketResponse.transaction_id,
+                    "seatIds":this.seat_ids,
+                    "entry_date": this.entrydate, 
+              }
+
+              console.log(paymentParam);
+
+              this.makepaymentService.getOrderid(paymentParam).subscribe(
                 res=>{
-                  //console.log(res);
-                  if(res.status == 1)
-                  {
-                      if(res.data=='SEAT UN-AVAIL'){
-                        this.notify.notify(res.message,"Error");
-                      }
-                      else
-                      {                      
-                          this.bookticketService.TicketConfirm(param).subscribe(
-                            res=>{
-                              if(res.status == 1)
-                              {
-                                  this.TicketConfirmResponse = res.data;
-                                  //console.log(this.TicketConfirmResponse);
-                                  this.showNextStep();                 
-                                  this.tabclick = false;           
-                                  setTimeout(() => {
-                                      this.spinner.hide("mySpinner");
-                                  }, 5000); 
-
-                                  this.notify.notify(res.data,"Success");                                                            
-                              }
-                              else{
-                                this.notify.notify(res.message,"Error");
-                              } 
-                          });  
-                      }      
-                  }
-                  else{              
+                          
+                  if(res.status==1){
+                    if(res.data=='SEAT UN-AVAIL'){
                       this.notify.notify(res.message,"Error");
+                    }else{
+                      this.MakePaymnetResponse=res.data;          
+                      this.OpenRazorpayModal();
+                    }
+                    
+                  }else{
+                    this.notify.notify(res.message,"Error");
                   } 
+      
                   this.spinner.hide();  
-            });       
+      
+              });
+
+
+              // const param=  {
+              //      "transaction_id":this.bookTicketResponse.transaction_id
+              // }  
+
+            //   this.bookticketService.SeatBlock(param).subscribe(
+            //     res=>{
+            //       //console.log(res);
+            //       if(res.status == 1)
+            //       {
+            //           if(res.data=='SEAT UN-AVAIL'){
+            //             this.notify.notify(res.message,"Error");
+            //           }
+            //           else
+            //           {                      
+            //               this.bookticketService.TicketConfirm(param).subscribe(
+            //                 res=>{
+            //                   if(res.status == 1)
+            //                   {
+            //                       this.TicketConfirmResponse = res.data;
+            //                       //console.log(this.TicketConfirmResponse);
+            //                       this.showNextStep();                 
+            //                       this.tabclick = false;           
+            //                       setTimeout(() => {
+            //                           this.spinner.hide("mySpinner");
+            //                       }, 5000); 
+
+            //                       this.notify.notify(res.data,"Success");                                                            
+            //                   }
+            //                   else{
+            //                     this.notify.notify(res.message,"Error");
+            //                   } 
+            //               });  
+            //           }      
+            //       }
+            //       else{              
+            //           this.notify.notify(res.message,"Error");
+            //       } 
+            //       this.spinner.hide();  
+            // });       
         }
    }
 
@@ -554,77 +587,105 @@ get_seatno(seat_id:any){
     }
   }
 
+  public OpenRazorpayModal() 
+  {    
+      this.spinner.hide();     
+      
+      const RAZORPAY_OPTIONS :any = 
+      {
+              "key": this.MakePaymnetResponse.key,
+              "amount": this.MakePaymnetResponse.amount,
+              "name": "ODBUS PAYMENT",
+              "order_id": this.MakePaymnetResponse.razorpay_order_id,
+              "description": "",
+              "image": "assets/img/odbus-logo.svg",
+              "prefill": {
+                "name": this.passengerData.customerInfo.name,
+                "email": this.passengerData.customerInfo.email,
+                "contact": '+91'+this.passengerData.customerInfo.phone,
+                "method": ""
+              },
+              "modal": {},
+              "theme": {
+                "color": "#d39e00"
+              }
+      };      
+
+      console.log(RAZORPAY_OPTIONS);
+          
+      RAZORPAY_OPTIONS['handler'] = this.razorPaySuccessHandler.bind(this); 
+      this.razorpay = new Razorpay(RAZORPAY_OPTIONS)
+      this.razorpay.open();  
+  }
 
   
 
   razorPaySuccessHandler(res: any) { 
     
-    if(res && res.razorpay_signature && res.razorpay_payment_id){
+    if(res && res.razorpay_signature && res.razorpay_payment_id)
+    {
+        let bkdt = new Date();
+        let bkdt_mnth = ("0" + (bkdt.getMonth() + 1)).slice(-2);
+        let bkdt_day = ("0" + bkdt.getDate()).slice(-2);
+        let booking_date= [bkdt_day, bkdt_mnth,bkdt.getFullYear()].join("-");
 
-    
+        this.bookingDate= [bkdt.getFullYear(),bkdt_mnth,bkdt_day].join("-");
 
-    let bkdt = new Date();
-    let bkdt_mnth = ("0" + (bkdt.getMonth() + 1)).slice(-2);
-    let bkdt_day = ("0" + bkdt.getDate()).slice(-2);
-    let booking_date= [bkdt_day, bkdt_mnth,bkdt.getFullYear()].join("-");
+        let j_date = new Date(this.entdate);
+        let j_mnth = ("0" + (j_date.getMonth() + 1)).slice(-2);
+        let j_day = ("0" + j_date.getDate()).slice(-2);
+        let journey_date= [j_day,j_mnth,j_date.getFullYear()].join("-");
 
-    this.bookingDate= [bkdt.getFullYear(),bkdt_mnth,bkdt_day].join("-");
-
-    let j_date = new Date(this.entdate);
-    let j_mnth = ("0" + (j_date.getMonth() + 1)).slice(-2);
-    let j_day = ("0" + j_date.getDate()).slice(-2);
-    let journey_date= [j_day,j_mnth,j_date.getFullYear()].join("-");
-
-    const param=  {
-      "transaction_id":this.bookTicketResponse.transaction_id,   
-      'razorpay_payment_id' : res.razorpay_payment_id,
-      'razorpay_order_id' : res.razorpay_order_id,
-      'razorpay_signature' : res.razorpay_signature , 
-      "name":this.passengerData.customerInfo.name,
-      "phone":this.passengerData.customerInfo.phone,    
-      "email":this.passengerData.customerInfo.email,    
-      "routedetails":this.source+'-'+this.destination,    
-      "bookingdate":booking_date,
-      "journeydate":journey_date,
-      "boarding_point":this.bookingdata.boardingPoint,
-      "departureTime":this.busRecord.departureTime,
-      "dropping_point":this.bookingdata.droppingPoint,
-      "arrivalTime":this.busRecord.arrivalTime,
-      "seat_id":this.seat_ids,  
-      "seat_no": this.total_seat_name ,
-      "bus_id" : this.busRecord.busId,
-      "source": this.source,
-      "destination": this.destination,
-      "busname": this.busRecord.busName,
-      "busNumber": this.busRecord.busNumber,
-      "bustype":this.busRecord.busType,
-      "busTypeName":this.busRecord.busTypeName,
-      "sittingType":this.busRecord.sittingType,
-      "conductor_number":this.busRecord.conductor_number,
-      "passengerDetails":this.passengerData.bookingInfo.bookingDetail,
-      "totalfare":this.bookingdata.PriceArray.totalFare, 
-      "discount":this.couponData.discount,
-      "payable_amount":this.couponData.payableAmount,   
-      "odbus_charges":this.bookingdata.PriceArray.odbusServiceCharges,
-      "odbus_gst":this.bookingdata.PriceArray.transactionFee, 
-      "owner_fare":this.bookingdata.PriceArray.ownerFare   
-    }
-    
+        // const param=  {
+        //       "transaction_id":this.bookTicketResponse.transaction_id,   
+        //       'razorpay_payment_id' : res.razorpay_payment_id,
+        //       'razorpay_order_id' : res.razorpay_order_id,
+        //       'razorpay_signature' : res.razorpay_signature, 
+        //       'name':this.passengerData.customerInfo.name,
+        //       'phone':this.passengerData.customerInfo.phone,    
+        //       'email':this.passengerData.customerInfo.email,    
+        //       'routedetails':this.source+'-'+this.destination,    
+        //       'bookingdate':booking_date,
+        //       'journeydate':journey_date,
+        //       'boarding_point':this.bookingdata.boardingPoint,
+        //       'departureTime':this.busRecord.departureTime,
+        //       'dropping_point':this.bookingdata.droppingPoint,
+        //       'arrivalTime':this.busRecord.arrivalTime,
+        //       'seat_id':this.seat_ids,  
+        //       'seat_no': this.total_seat_name ,
+        //       'bus_id' : this.busRecord.busId,
+        //       'source': this.source,
+        //       'destination': this.destination,
+        //       'busname': this.busRecord.busName,
+        //       'busNumber': this.busRecord.busNumber,
+        //       'bustype':this.busRecord.busType,
+        //       'busTypeName':this.busRecord.busTypeName,
+        //       'sittingType':this.busRecord.sittingType,
+        //       'conductor_number':this.busRecord.conductor_number,
+        //       'passengerDetails':this.passengerData.bookingInfo.bookingDetail,
+        //       'totalfare':this.bookingdata.PriceArray.totalFare, 
+        //       'discount':this.couponData.discount,
+        //       'payable_amount':this.couponData.payableAmount,   
+        //       'odbus_charges':this.bookingdata.PriceArray.odbusServiceCharges,
+        //       'odbus_gst':this.bookingdata.PriceArray.transactionFee, 
+        //       'owner_fare':this.bookingdata.PriceArray.ownerFare   
+        // }
+        
+        const param=  {
+                "transaction_id":this.bookTicketResponse.transaction_id,                    
+        }      
   
-    this.spinner.show("mySpinner");
-
-    
-    this.paymentstatusService.getPaymentStatus(param).subscribe(
+    this.spinner.show("mySpinner");    
+    this.bookticketService.TicketConfirm(param).subscribe(
       res=>{
-
-        if(res.status==1){ 
-
+        if(res.status==1)
+        { 
+          this.TicketConfirmResponse = res.data;
           this.showNextStep();                 
           this.tabclick = false;           
           setTimeout(() => {
             this.spinner.hide("mySpinner");
-          }, 5000); 
-          
+          }, 5000);           
             localStorage.removeItem('bookingdata');
             localStorage.removeItem('busRecord');
             localStorage.removeItem('genderRestrictSeats');
@@ -633,23 +694,17 @@ get_seatno(seat_id:any){
             localStorage.removeItem('destination');
             localStorage.removeItem('destination_id');
             localStorage.removeItem('entdate'); 
-
-
-          this.notify.notify(res.data,"Success");
+            this.notify.notify(res.data,"Success");
         }else{
           this.notify.notify(res.message,"Error");
         }
-
     },
     error => {
       this.notify.notify(error.error.message,"Error");
       this.spinner.hide();   
-
     }
     );
-
    }
-
    this.loadingText = 'Loading...';
   }
 

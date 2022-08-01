@@ -137,7 +137,7 @@ export class HomeComponent implements OnInit {
         localStorage.removeItem('source_id');
         localStorage.removeItem('destination');
         localStorage.removeItem('destination_id');
-        localStorage.removeItem('entdate');
+        localStorage.getItem('entdate');
 
         //  this.popularRoutesService.all().subscribe(
         //   res=>{
