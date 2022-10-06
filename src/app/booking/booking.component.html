@@ -131,10 +131,10 @@ type = "ball-clip-rotate" [fullScreen] = "true"><p style="color: white" > {{load
 				<div class="col-md-11">
 					<span class="font">From</span>			
 					<h5> {{ source }}</h5>
-					<h6>{{ bookingdata.boardingPoint }} - {{ busRecord.departureTime}}</h6>
+					<h6>{{ bookingdata.boardingPoint.boardingPoints }} - {{ busRecord.departureTime}}</h6>
 					<span class="font">To</span>
 					<h5>{{ destination }}</h5>
-					<h6>{{ bookingdata.droppingPoint }} - {{ busRecord.arrivalTime}}</h6>
+					<h6>{{ bookingdata.droppingPoint.droppingPoints }} - {{ busRecord.arrivalTime}}</h6>
 				</div>
 			</div>
 
@@ -175,11 +175,11 @@ type = "ball-clip-rotate" [fullScreen] = "true"><p style="color: white" > {{load
 			<div class="row">
 				<div class="col-md-3">
 					<h5><i class="fas fa-map-marker-alt icon-color"></i> {{ source }}</h5>
-					<h6 class="padding-left">{{ bookingdata.boardingPoint }} - {{ busRecord.departureTime}}</h6>
+					<h6 class="padding-left">{{ bookingdata.boardingPoint.boardingPoints }} - {{ busRecord.departureTime}}</h6>
 				</div>
 				<div class="col-md-3">
 					<h5><i class="fas fa-map-marker-alt icon-color"></i> {{ destination }}</h5>
-					<h6 class="padding-left">{{ bookingdata.droppingPoint }} - {{ busRecord.arrivalTime }}</h6>			
+					<h6 class="padding-left">{{ bookingdata.droppingPoint.droppingPoints }} - {{ busRecord.arrivalTime }}</h6>			
 				</div>
 				<div class="col-md-3">								
 					<h5><i class="fas fa-bus-alt icon-color"></i> {{ busRecord.busName }} </h5>
@@ -347,12 +347,12 @@ type = "ball-clip-rotate" [fullScreen] = "true"><p style="color: white" > {{load
 							<td>Arrival Timing: {{ busRecord.arrivalTime }}</td>
 						  </tr>
 						  <tr>
-							<td>From: {{ source }} ({{ bookingdata.boardingPoint }})</td>
-							<td>To: {{ destination }} ({{ bookingdata.droppingPoint }})</td>
+							<td>From: {{ source }} ({{ bookingdata.boardingPoint.boardingPoints }})</td>
+							<td>To: {{ destination }} ({{ bookingdata.droppingPoint.droppingPoints }})</td>
 						  </tr>
 						  <tr>
-							<td>Boarding At :{{ source }} ({{ bookingdata.boardingPoint }})</td>
-							<td>Droping At: {{ destination }} ({{ bookingdata.droppingPoint }})</td>
+							<td>Boarding At :{{ source }} ({{ bookingdata.boardingPoint.boardingPoints }})</td>
+							<td>Droping At: {{ destination }} ({{ bookingdata.droppingPoint.droppingPoints }})</td>
 						  </tr>
 						  <tr>
 							<td>Passenger Mobile No: +91 {{ passengerData.customerInfo.phone}}</td>

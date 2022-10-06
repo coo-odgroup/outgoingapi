@@ -185,13 +185,11 @@ export class BookingComponent implements OnInit{
 
       this.genderRestrictSeats= JSON.parse(this.genderRestrictSeats);
 
-      let brdTm_arr = this.bookingdata.boardingPoint.split(" - ");
-      let drpTm_arr = this.bookingdata.droppingPoint.split(" - ");
-
-      this.bookingdata.boardingPoint=brdTm_arr[0];
-      this.bookingdata.droppingPoint=drpTm_arr[0];
-      this.busRecord.departureTime=brdTm_arr[1];
-      this.busRecord.arrivalTime=drpTm_arr[1];    
+     
+      // this.bookingdata.boardingPoint=brdTm_arr[0];
+      // this.bookingdata.droppingPoint=drpTm_arr[0];
+      // this.busRecord.departureTime=brdTm_arr[1];
+      // this.busRecord.arrivalTime=drpTm_arr[1];    
 
       // if(this.bookingdata.UpperBerthSeats.length){
       //   this.total_seat_name =this.total_seat_name.concat(this.bookingdata.UpperBerthSeats);
@@ -235,7 +233,7 @@ export class BookingComponent implements OnInit{
           }),   
           bookingInfo: this.fb.group({
   
-            "user_id":GlobalConstants.USER_ID,
+            // "user_id":GlobalConstants.USER_ID,
             bus_id: [this.busRecord.busId],
             source_id: [this.source_id],
             destination_id: [this.destination_id],
@@ -244,16 +242,22 @@ export class BookingComponent implements OnInit{
             dropping_point: [this.bookingdata.droppingPoint],
             boarding_time: [this.busRecord.departureTime],
             dropping_time: [this.busRecord.arrivalTime],
-            origin: ["ODBUS"],
-            app_type: ["WEB"],
-            typ_id: ["1"],
-            total_fare: this.bookingdata.PriceArray.totalFare,
-            specialFare: this.bookingdata.PriceArray.specialFare,
-            addOwnerFare:this.bookingdata.PriceArray.addOwnerFare,
-            festiveFare:this.bookingdata.PriceArray.festiveFare,
-            owner_fare: this.bookingdata.PriceArray.ownerFare,
-            odbus_service_Charges: this.bookingdata.PriceArray.odbusServiceCharges,
-            created_by: this.created_by,
+            CompanyID: this.busRecord.CompanyID,
+            PickupID: this.bookingdata.boardingPoint.id,
+            DropID: this.bookingdata.droppingPoint.id,
+            origin: this.busRecord.origin,
+            ReferenceNumber: this.busRecord.ReferenceNumber,
+            RouteTimeID: this.busRecord.RouteTimeID,
+            // origin: ["ODBUS"],
+            // app_type: ["WEB"],
+            // typ_id: ["1"],
+            // total_fare: this.bookingdata.PriceArray.totalFare,
+            // specialFare: this.bookingdata.PriceArray.specialFare,
+            // addOwnerFare:this.bookingdata.PriceArray.addOwnerFare,
+            // festiveFare:this.bookingdata.PriceArray.festiveFare,
+            // owner_fare: this.bookingdata.PriceArray.ownerFare,
+            // odbus_service_Charges: this.bookingdata.PriceArray.odbusServiceCharges,
+            // created_by: this.created_by,
             bookingDetail: this.fb.array([]),        
           })
         });

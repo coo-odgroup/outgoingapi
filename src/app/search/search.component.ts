@@ -173,7 +173,8 @@ export class SearchComponent  implements ControlValueAccessor {
   prevDate:any;
   nextDate:any;
   maxAllowedDate:any=new Date();
-
+  referenceNumber:any='';
+  origin:any='';
   show = 5;
  
   constructor(
@@ -633,6 +634,9 @@ export class SearchComponent  implements ControlValueAccessor {
         "busId": SeatPriceParams.busId,
         "sleeper": sleeperparam,
         "seater": seaterparam,
+        "ReferenceNumber":this.referenceNumber,
+        "origin":this.origin
+
       }
 
       //console.log(params);
@@ -1038,11 +1042,14 @@ export class SearchComponent  implements ControlValueAccessor {
     let bus_id=this.busId;
     this.seatLoader=true;
 
-    const params = {
-          entry_date:this.entdate,
-          busId:bus_id,
-          sourceId:this.source_id,
-          destinationId:this.destination_id
+    let params = {
+          "entry_date":this.entdate,
+          "busId":bus_id,
+          "sourceId":this.source_id,
+          "destinationId":this.destination_id,
+          "ReferenceNumber":this.referenceNumber,
+          "origin":this.origin,
+
      };
 
     
@@ -1117,9 +1124,12 @@ export class SearchComponent  implements ControlValueAccessor {
     let bus_id=this.busId;
 
     let bdparam={
-      "busId":this.busId,
-      "sourceId":this.source_id,
-      "destinationId":this.destination_id
+        "busId":this.busId,
+        "sourceId":this.source_id,
+        "destinationId":this.destination_id,
+        "journey_date":this.entdate,
+        "origin":this.origin,
+        "ReferenceNumber":this.referenceNumber
     };
 
     this.boardingDropingPointService.getdata(bdparam).subscribe(
@@ -1128,11 +1138,11 @@ export class SearchComponent  implements ControlValueAccessor {
        this.boardingPointArr=res.data[0].boardingPoints;
        this.droppingPointArr=res.data[0].droppingPoints;     
 
-       this.boardingPointArr.map((i:any) => { i.boardTime = i.boardingPoints + ' - ' + i.boardingTimes; return i; });
-       this.droppingPointArr.map((i:any) => { i.dropTime = i.droppingPoints + ' - ' + i.droppingTimes; return i; });
+       this.boardingPointArr.map((i:any) => { i.boardTime = i.boardingPoints + ' | ' + i.boardingTimes; return i; });
+       this.droppingPointArr.map((i:any) => { i.dropTime = i.droppingPoints + ' | ' + i.droppingTimes; return i; });
 
-       this.selectedBoard= this.boardingPointArr[0].boardTime;
-       this.selectedDrop= this.droppingPointArr[0].dropTime;
+       this.seatForm.controls['boardingPoint'].setValue(this.boardingPointArr[0]); 
+       this.seatForm.controls['droppingPoint'].setValue(this.droppingPointArr[0]); 
       }); 
     
   }
@@ -1194,7 +1204,10 @@ export class SearchComponent  implements ControlValueAccessor {
       this.seatlayoutShow=id;
     }
 
+
     this.busId=this.buslistRecord.busId;
+    this.referenceNumber=this.buslistRecord.ReferenceNumber;
+    this.origin=this.buslistRecord.origin;
     this.LowerberthArr=[];
     this.UpperberthArr=[];
     this.PriceArray=[];
@@ -1460,7 +1473,8 @@ export class SearchComponent  implements ControlValueAccessor {
     let param = {
         "sourceID":this.source_id,
         "destinationID":this.destination_id,
-        "busIDs":this.busIds
+        "busIDs":this.busIds,
+        "entry_date":this.entdate
     };
 
     this.filterOptionsService.getoptions(param).subscribe(

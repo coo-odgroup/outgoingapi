@@ -1,5 +1,11 @@
 
-export interface Buslist {    
+export interface Buslist { 
+    origin : any,
+    CompanyID : any,
+    ReferenceNumber : any,
+    BoardingPoints : any,
+    DroppingPoints : any,
+    RouteTimeID : any,     
     busId:number,
     busName:string,
     popularity:any,
