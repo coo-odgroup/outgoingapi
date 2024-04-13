@@ -28,15 +28,10 @@ export class AuthService {
 
   //live
   params = {
-      "client_id": "2686983" ,
-      "password": "dev@12345"
-  }  
+      "client_id": "demoroad" ,
+      "password": "Admin@2010"
+  } 
 
-  //local 
-  // params = {
-  //   "client_id": "4423425" ,
-  //   "password": "dev@12345"
-  // }  
 
   httpOptions = {
     headers: new HttpHeaders({
