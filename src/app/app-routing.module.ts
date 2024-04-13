@@ -24,14 +24,6 @@ import { OffersComponent } from './offers/offers.component';
 import { SignupComponent } from './signup/signup.component';
 import { LoginComponent } from './login/login.component';
 import { OtpComponent } from './otp/otp.component';
-import { MyaccountComponent } from './user/myaccount/myaccount.component';
-import { UserdashboardComponent } from './user/userdashboard/userdashboard.component';
-import { UsernotificationsComponent } from './user/usernotifications/usernotifications.component';
-import { UserwalletComponent } from './user/userwallet/userwallet.component';
-import { UserinvitefriendsComponent } from './user/userinvitefriends/userinvitefriends.component';
-import { UserrewardsComponent } from './user/userrewards/userrewards.component';
-import { UserreviewsComponent } from './user/userreviews/userreviews.component';
-import { UserhelpsupportComponent } from './user/userhelpsupport/userhelpsupport.component';
 import { OperatorDetailComponent } from './operator-detail/operator-detail.component';
 import { AuthGuard } from './helpers/auth.guard';
 import { SeoService } from './services/seo.service';
@@ -66,14 +58,6 @@ export const routes: Routes = [
   { path: 'login', component: LoginComponent},  
   { path: 'otp', component: OtpComponent}, 
   { path: 'thankyou', component: ThankyouComponent}, 
-  { path: 'dashboard', component: UserdashboardComponent,canActivate: [AuthGuard]},    
-  { path: 'notifications', component: UsernotificationsComponent,canActivate: [AuthGuard]},    
-  { path: 'wallet', component: UserwalletComponent,canActivate: [AuthGuard]},    
-  { path: 'invite-friend', component: UserinvitefriendsComponent,canActivate: [AuthGuard]},    
-  { path: 'rewards', component: UserrewardsComponent,canActivate: [AuthGuard]},    
-  { path: 'my-reviews', component: UserreviewsComponent,canActivate: [AuthGuard]},  
-  { path: 'helpandsupport', component: UserhelpsupportComponent,canActivate: [AuthGuard]},    
-  { path: 'myaccount', component: MyaccountComponent,canActivate: [AuthGuard]},
   { path: '**', component: SearchComponent}
 ]
 

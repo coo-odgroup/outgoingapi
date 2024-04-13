@@ -56,10 +56,9 @@ export class ManageBookingComponent implements OnInit {
       return;
      }else{        
        const request= {
-        "pnr":this.bookForm.value.pnr,
-        "mobile":this.bookForm.value.mobile
+        "pnr":this.bookForm.value.pnr
        };     
-       this.managebookingService.getbookingdetails(request).subscribe(
+       this.managebookingService.getcancelTicketInfo(request).subscribe(
         res=>{ 
           if(res.status==1){
             

@@ -42,68 +42,12 @@ export class ManagebookingdetailsComponent implements OnInit {
 
     }
 
-
-    for(let i=0;i< this.bookingDetails.booking[0].booking_detail.length ;i++){
-      this.seats.push(this.bookingDetails.booking[0].booking_detail[i].bus_seats.seats.seatText);
-    }
-
-
-    this.totalseats  = this.seats.length;
    
    
 
   }
 
-  print_ticketTab() {  
-    
-    this.tab1=true;
-    this.tab2=false;
-    this.tab3=false;
-  }
 
-  sms_email_ticketTab() {   
-
-    this.tab1=false;
-    this.tab2=true;
-    this.tab3=false;
-  }
-
-  cancelTicketTab() {   
-
-    this.spinner.show();
-
-
-    const request= {
-      "pnr":this.bookingDetails.booking[0].pnr,
-      "mobile":this.bookingDetails.phone
-     };
-
-    this.managebookingService.getcancelTicketInfo(request).subscribe(
-      res=>{        
-        //console.log(res);
-
-        if(res.status==1){
-
-          this.cancelInfo=res.data;
-              this.tab1=false;
-              this.tab2=false;
-              this.tab3=true;                      
-        }
-        if(res.status==0){
-          this.notify.notify(res.message,"Error");
-        }
-        this.spinner.hide();
-      },
-    error => {
-      this.spinner.hide();
-      this.notify.notify(error.error.message,"Error");
-    }
-    );
-
-
-
-    
-  }
 
   cancel_ticket(){
 
@@ -112,8 +56,7 @@ export class ManagebookingdetailsComponent implements OnInit {
    
     this.spinner.show();
     const request= {
-      "pnr":this.bookingDetails.booking[0].pnr,
-      "phone":this.bookingDetails.phone
+      "pnr":this.bookingDetails.booking[0].pnr
      };
 
      
@@ -142,66 +85,7 @@ export class ManagebookingdetailsComponent implements OnInit {
 
   }
 
-  send_email_sms(){
-
-    this.spinner.show();
-
-    const request= {
-      "pnr":this.bookingDetails.booking[0].pnr,
-      "mobile":this.bookingDetails.phone
-     };
-
-    this.managebookingService.sendEmailSms(request).subscribe(
-      res=>{ 
-        if(res.status==1){
-          this.notify.notify(res.data,"Success");           
-        } 
-        
-        if(res.status==0){
-          this.notify.notify(res.message,"Error");           
-        } 
-        
-        this.spinner.hide();      
-      },
-    error => {
-      this.spinner.hide();
-      this.notify.notify(error.error.message,"Error");
-    }
-    );
-
-
-  }
-
-  print(): void {
-
-    var printButton = document.getElementById('print_btn');
-    printButton.style.visibility = 'hidden';
-
-    // var print_logo = document.getElementById('print_logo');
-    // print_logo.style.visibility = 'visible';
-
-    // console.log(print_logo);
-
-    const printContents = document.getElementById('print-section').innerHTML;
-    const popupWin = window.open('', '_blank', 'top=0,left=0,height=100%,width=auto');
-    popupWin.document.open();
-   
-    popupWin.document.write(`
-        <html>
-            <head>
-                <title>Print Page</title>
-            </head>
-            <body
-                style="font-size: 14px;
-                    font-family: 'Source Sans Pro', 'Helvetica Neue',
-                    Helvetica, Arial, sans-serif;
-                    color: #333";
-                onload="document.execCommand('print');window.close()">${printContents}</body>
-        </html>`
-    );
-   printButton.style.visibility = 'visible';
-    popupWin.document.close();
-  }  
+  
 
   ngOnInit(): void {
    

@@ -22,24 +22,7 @@ export class ManagebookingService {
 
   constructor(private httpClient: HttpClient) { }
 
-  getbookingdetails(params :any): Observable<any> { 
-
-    return this.httpClient.post<any>(this.apiURL + '/BookingDetails' , JSON.stringify(params) ,this.httpOptions)
-    .pipe(
-      catchError(this.errorHandler)
-    )
-  }
-
   
-
-  sendEmailSms(param:any): Observable<any> { 
-
-    return this.httpClient.post<any>(this.apiURL + '/EmailSms' , JSON.stringify(param) ,this.httpOptions)
-    .pipe(
-      catchError(this.errorHandler)
-    )
-  }
-
   cancelTicket(param:any): Observable<any> { 
 
     return this.httpClient.post<any>(this.apiURL + '/CancelTicket' , JSON.stringify(param) ,this.httpOptions)
@@ -50,7 +33,7 @@ export class ManagebookingService {
 
   getcancelTicketInfo(param:any): Observable<any> { 
 
-    return this.httpClient.post<any>(this.apiURL + '/cancelTicketInfo' , JSON.stringify(param) ,this.httpOptions)
+    return this.httpClient.post<any>(this.apiURL + '/ClientTicketCancellation' , JSON.stringify(param) ,this.httpOptions)
     .pipe(
       catchError(this.errorHandler)
     )

@@ -39,19 +39,10 @@ import { NgbDate, NgbDateParserFormatter, NgbModule,NgbProgressbarModule } from 
 import { CustomdateformatService } from "./services/customdateformat.service";
 import { NgxSpinnerModule } from "ngx-spinner";
 import { AuthInterceptor } from './shared/auth.interceptor';
-import { MyaccountComponent } from './user/myaccount/myaccount.component';
-import { UserdashboardComponent } from './user/userdashboard/userdashboard.component';
-import { UsernavbarComponent } from './user/usernavbar/usernavbar.component';
 
 import { JwtHelperService, JWT_OPTIONS  } from '@auth0/angular-jwt';
 
 import { HashLocationStrategy, LocationStrategy } from '@angular/common';
-import { UsernotificationsComponent } from './user/usernotifications/usernotifications.component';
-import { UserwalletComponent } from './user/userwallet/userwallet.component';
-import { UserinvitefriendsComponent } from './user/userinvitefriends/userinvitefriends.component';
-import { UserrewardsComponent } from './user/userrewards/userrewards.component';
-import { UserreviewsComponent } from './user/userreviews/userreviews.component';
-import { UserhelpsupportComponent } from './user/userhelpsupport/userhelpsupport.component';
 import { OperatorDetailComponent } from './operator-detail/operator-detail.component';
 import { AuthGuard } from './helpers/auth.guard';
 import { CountdownModule } from 'ngx-countdown';
@@ -105,15 +96,6 @@ const ngWizardConfig: NgWizardConfig = {
     SignupComponent,
     LoginComponent,
     OtpComponent,
-    MyaccountComponent,
-    UserdashboardComponent,
-    UsernavbarComponent,
-    UsernotificationsComponent,
-    UserwalletComponent,
-    UserinvitefriendsComponent,
-    UserrewardsComponent,
-    UserreviewsComponent,
-    UserhelpsupportComponent,
     OperatorDetailComponent,
     FilterPipe
   ], 
