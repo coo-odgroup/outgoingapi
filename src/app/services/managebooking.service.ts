@@ -25,7 +25,7 @@ export class ManagebookingService {
   
   cancelTicket(param:any): Observable<any> { 
 
-    return this.httpClient.post<any>(this.apiURL + '/CancelTicket' , JSON.stringify(param) ,this.httpOptions)
+    return this.httpClient.post<any>(this.apiURL + '/ClientTicketCancellation' , JSON.stringify(param) ,this.httpOptions)
     .pipe(
       catchError(this.errorHandler)
     )
@@ -33,7 +33,7 @@ export class ManagebookingService {
 
   getcancelTicketInfo(param:any): Observable<any> { 
 
-    return this.httpClient.post<any>(this.apiURL + '/ClientTicketCancellation' , JSON.stringify(param) ,this.httpOptions)
+    return this.httpClient.post<any>(this.apiURL + '/ClientCancelTicketinfo' , JSON.stringify(param) ,this.httpOptions)
     .pipe(
       catchError(this.errorHandler)
     )

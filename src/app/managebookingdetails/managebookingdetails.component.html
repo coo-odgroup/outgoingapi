@@ -11,26 +11,36 @@ type = "ball-clip-rotate" [fullScreen] = "true"><p style="color: white" > Loadin
             <tbody>
                 <tr>
                     <td class="st-ri">Amount Paid:</td>
-                    <td class="st-le">₹{{ cancelInfo.totalfare }}</td>
+                    <td class="st-le">₹{{ cancelDetails.totalfare }}</td>
                 </tr>
 
                 <tr>
                     <td class="st-ri">Cancellation Fees:</td>
-                    <td class="st-le">₹{{ cancelInfo.deductAmount }} ( {{ cancelInfo.deductionPercentage }})</td>
+                    <td class="st-le" style="color: red;">- ₹{{ cancelDetails.deductAmount }} ( {{ cancelDetails.deductionPercentage }})</td>
+                </tr>
+
+                <tr>
+                    <td class="st-ri">Gst On Cancel Charge:</td>
+                    <td class="st-le" style="color: red;">- ₹{{ cancelDetails.GstOnCancelCharge }}</td>
+                </tr>
+
+                <tr>
+                    <td class="st-ri">Cancel Commission:</td>
+                    <td class="st-le" style="color: green;">+ ₹{{ cancelDetails.OdbusCancelCommission }}</td>
                 </tr>
 
                 <tr>
                     <td class="st-ri">Refund Amount:</td>
-                    <td class="st-le">₹{{ cancelInfo.refundAmount}}</td>
+                    <td class="st-le" style="color: green;"> + ₹{{ cancelDetails.refundAmount}}</td>
                 </tr>
             </tbody>
         </table>
         <div align="center">
         <button (click)="cancel_ticket();" class="btn btn-danger proceed btn-de" 
-        *ngIf="cancelInfo.cancel_status">Cancel Ticket</button>
+        *ngIf="cancelDetails.cancel_status">Cancel Ticket</button>
 
         <d (click)="cancel_ticket();"  
-        *ngIf="cancelInfo.cancel_status==false">Ticket has been cancelled</d>
+        *ngIf="cancelDetails.cancel_status==false">Ticket has been cancelled</d>
 
         </div>
     </div>

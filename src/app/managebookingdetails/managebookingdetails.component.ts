@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ManagebookingService } from '../services/managebooking.service';
 import { NotificationService } from '../services/notification.service';
 import { NgxSpinnerService } from "ngx-spinner";
@@ -15,32 +15,60 @@ import { Location } from '@angular/common';
 })
 export class ManagebookingdetailsComponent implements OnInit {
 
-  tab1:boolean=true;
-  tab2:boolean=false;
-  tab3:boolean=false;
 
-  bookingDetails:any;
+  cancelDetails:any;
 
-  seats:any=[];
-  totalseats:any=[];
   cancelInfo:any=[];
-  currentUrl: string;
+  pnr:any='';
 
   constructor(public router: Router,private notify: NotificationService,
     private managebookingService: ManagebookingService,
     private spinner: NgxSpinnerService ,private seo:SeoService,
-    private location: Location) { 
+    private location: Location, private route: ActivatedRoute,) { 
 
-    this.currentUrl = location.path().replace('/','');
-        this.seo.seolist(this.currentUrl); 
+      this.route.params.subscribe(params => {
+        this.pnr = params['pnr'];
+       
+      });
 
-    this.bookingDetails= JSON.parse(localStorage.getItem("bookingDetails"));
+      
 
-    if(this.bookingDetails == null){
+      this.spinner.show();
+    const request= {
+      "pnr":this.pnr
+     };
 
-      this.router.navigate(['manage-booking']);
+      this.managebookingService.getcancelTicketInfo(request).subscribe(
+        res=>{ 
 
-    }
+         // console.log(res);
+
+          if(res.status==1){
+            
+            this.cancelDetails=res.data;
+                       
+          } 
+          if(res.status==0){
+            this.notify.notify(res.message,"Error");
+            this.router.navigate(['manage-booking']);
+          } 
+
+          this.spinner.hide();
+        },
+      error => {
+        this.spinner.hide();
+        this.notify.notify(error.error.message,"Error");
+      });
+
+
+
+    //console.log(this.cancelDetails);
+
+    // if(this.cancelDetails == null){
+
+    //   this.router.navigate(['manage-booking']);
+
+    // }
 
    
    
@@ -56,7 +84,7 @@ export class ManagebookingdetailsComponent implements OnInit {
    
     this.spinner.show();
     const request= {
-      "pnr":this.bookingDetails.booking[0].pnr
+      "pnr":this.pnr
      };
 
      
@@ -64,7 +92,7 @@ export class ManagebookingdetailsComponent implements OnInit {
       res=>{ 
         
         if(res.status==1){    
-          this.cancelInfo.cancel_status  =false;    
+          this.cancelDetails.cancel_status  =false;    
           this.notify.notify(res.message,"Success");                
         } 
         if(res.status==0){

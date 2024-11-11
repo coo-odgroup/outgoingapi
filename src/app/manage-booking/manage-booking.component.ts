@@ -20,7 +20,7 @@ export class ManageBookingComponent implements OnInit {
 
   submitted=false;
 
-  bookingDetails:any=[];
+  cancelDetails:any=[];
   currentUrl: string;
 
   constructor(public router: Router,
@@ -34,7 +34,7 @@ export class ManageBookingComponent implements OnInit {
     this.currentUrl = location.path().replace('/','');
         this.seo.seolist(this.currentUrl);
 
-      localStorage.removeItem('bookingDetails');
+      localStorage.removeItem('cancelDetails');
 
       this.bookForm = this.fb.group({
         pnr: ['', Validators.required],
@@ -62,8 +62,8 @@ export class ManageBookingComponent implements OnInit {
         res=>{ 
           if(res.status==1){
             
-            localStorage.setItem('bookingDetails',JSON.stringify(res.data[0]));
-            this.router.navigate(['manage-booking-detail']);            
+            localStorage.setItem('cancelDetails',JSON.stringify(res.data));
+            this.router.navigate(['manage-booking-detail/'+this.bookForm.value.pnr]);            
           } 
           if(res.status==0){
             this.notify.notify(res.message,"Error");

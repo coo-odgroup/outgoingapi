@@ -39,7 +39,7 @@ export const routes: Routes = [
   { path: 'booking', component: BookingComponent },
   { path: 'about-us', component: AboutUsComponent },
   { path: 'manage-booking', component: ManageBookingComponent },
-  { path: 'manage-booking-detail', component: ManagebookingdetailsComponent},  
+  { path: 'manage-booking-detail/:pnr', component: ManagebookingdetailsComponent},  
   { path: 'support', component: SupportComponent },
   { path: 'operators', component: OperatorsComponent },    
   { path: 'operator/:url', component: OperatorDetailComponent},   

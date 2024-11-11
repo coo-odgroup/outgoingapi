@@ -26,11 +26,12 @@ export class AuthService {
   // }
 
 
-  //live
+ // testing
   params = {
       "client_id": "demoroad" ,
       "password": "Admin@2010"
   } 
+
 
 
   httpOptions = {
