@@ -25,14 +25,21 @@ export class AuthService {
   //   "password": "Admin@2010"
   // }
 
-
- // testing
-  params = {
-      "client_id": "demoroad" ,
-      "password": "Admin@2010"
-  } 
+  // params = {  
+  //      "client_id": "4601858" ,  /// mantis live
+  //     "password": "Mantis@2023"
+  // }
 
 
+  // params = {
+  //     "client_id": "9489840" ,  /// paytm live
+  //     "password": "Paytm@2024#"
+  // } 
+
+params = {  
+       "client_id": "9489840" ,  /// paytm test
+      "password": "Access@2024#"
+  }
 
   httpOptions = {
     headers: new HttpHeaders({
