@@ -23,7 +23,15 @@ export class MakepaymentService {
 
   getOrderid(params :any): Observable<any> { 
 
-    return this.httpClient.post<any>(this.apiURL + '/MakePayment' , JSON.stringify(params) ,this.httpOptions)
+    return this.httpClient.post<any>(this.apiURL + '/SeatBlock' , JSON.stringify(params) ,this.httpOptions)
+    .pipe(
+      catchError(this.errorHandler)
+    )
+  }
+
+  wallet_payment(params :any): Observable<any> { 
+
+    return this.httpClient.post<any>(this.apiURL + '/TicketConfirmation' , JSON.stringify(params) ,this.httpOptions)
     .pipe(
       catchError(this.errorHandler)
     )
