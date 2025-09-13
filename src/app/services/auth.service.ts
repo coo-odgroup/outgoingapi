@@ -36,8 +36,13 @@ export class AuthService {
   //     "password": "Paytm@2024#"
   // } 
 
-params = {  
-       "client_id": "9489840" ,  /// paytm test
+// params = {  
+//        "client_id": "9489840" ,  /// paytm test
+//       "password": "Access@2024#"
+//   }
+
+  params = {  
+       "client_id": "6759491" ,  /// abhibus live
       "password": "Access@2024#"
   }
 
